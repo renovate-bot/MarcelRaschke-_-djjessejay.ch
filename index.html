@@ -428,26 +428,35 @@
         const memoryStorage = { 'preferred-language': 'de', 'cookies-accepted': null };
         const apiKey = ""; // Provided by environment
 
-        // --- Gemini API Call Function ---
-        async function callGeminiAPI(prompt, systemInstruction, maxRetries = 3) {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+        // --- Claude API Call Function ---
+        async function callClaudeAPI(prompt, systemInstruction, maxRetries = 3) {
+            const apiUrl = "https://api.anthropic.com/v1/messages";
+            const payload = {
+                model: "claude-sonnet-4-6",
+                max_tokens: 1024,
+                messages: [{ role: "user", content: prompt }]
+            };
             if (systemInstruction) {
-                payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+                payload.system = systemInstruction;
             }
             for (let i = 0; i < maxRetries; i++) {
                 try {
                     const response = await fetch(apiUrl, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': apiKey,
+                            'anthropic-version': '2023-06-01',
+                            'anthropic-dangerous-direct-browser-access': 'true'
+                        },
                         body: JSON.stringify(payload)
                     });
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const result = await response.json();
-                    if (result.candidates && result.candidates[0] && result.candidates[0].content && result.candidates[0].content.parts[0]) {
-                        return result.candidates[0].content.parts[0].text;
+                    if (result.content && result.content[0] && result.content[0].text) {
+                        return result.content[0].text;
                     } else {
                         throw new Error("Invalid API response structure");
                     }
@@ -478,7 +487,7 @@
             const systemInstruction = "You are a creative music journalist with a passion for electronic music. Write an engaging and slightly poetic alternative biography for DJ Jesse Jay, based on his existing bio. Highlight the 'soul-bearing journeys' and his deep connection to the Zurich club scene. Keep it to three paragraphs. Respond in German.";
             const userPrompt = "Write a creative biography for DJ Jesse Jay. Key elements: active since 1997, from Zurich, plays Progressive House and Techno, hosts 'The Blue Dimension' on Radio LoRa, grew up in legendary clubs like Dachkantine.";
 
-            const aiResponse = await callGeminiAPI(userPrompt, systemInstruction);
+            const aiResponse = await callClaudeAPI(userPrompt, systemInstruction);
 
             if (aiResponse) {
                 bioContent.innerHTML = `<p>${aiResponse.replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p>`;
@@ -511,7 +520,7 @@
             const systemInstruction = "You are a helpful AI assistant. Your task is to refine a user's message into a more professional and clear booking or contact request. Correct any grammar or spelling mistakes and structure it politely, but retain the original intent and key information. Respond in the same language as the user's message.";
             const userPrompt = `Refine the following message into a professional inquiry: "${messageTextarea.value}"`;
 
-            const aiResponse = await callGeminiAPI(userPrompt, systemInstruction);
+            const aiResponse = await callClaudeAPI(userPrompt, systemInstruction);
             if (aiResponse) {
                 messageTextarea.value = aiResponse;
             } else {
@@ -537,7 +546,7 @@
             const systemInstruction = "You are a knowledgeable and enthusiastic music curator for DJ Jesse Jay. Based on a user's described mood or event, you recommend one of three categories of his mixes: 'Latest Mixes' for modern, cutting-edge sounds; 'Radio Show' for deep, long-form journeys; or 'Classic Sets' for timeless, nostalgic vibes. Your response should first state the recommended category in bold, surrounded by asterisks (e.g., **Latest Mixes**), followed by a creative, short paragraph explaining why it's the perfect fit. Respond in the same language as the user's prompt.";
             const userPrompt = `The mood I'm looking for is: "${vibeInput.value}". Which mix category should I listen to? Respond in the language of the prompt.`;
 
-            const aiResponse = await callGeminiAPI(userPrompt, systemInstruction);
+            const aiResponse = await callClaudeAPI(userPrompt, systemInstruction);
 
             if (aiResponse) {
                 const formattedResponse = aiResponse.replace(/\*\*(.*?)\*\*/g, '<strong class="text-cyan-400">$1</strong>');
@@ -567,7 +576,7 @@
             const systemInstruction = "You are a professional PR agent specializing in electronic music. Your task is to write a short, exciting press release or social media announcement (around 100-150 words) for a gig by DJ Jesse Jay. The tone should be professional yet energetic. Use the provided event details. The output should be ready to copy and paste. Respond in the language of the user's details.";
             const userPrompt = `Create a press release for an event with DJ Jesse Jay. Details: Date: ${date}, Venue: ${venue}, Special Notes: ${notes}.`;
 
-            const aiResponse = await callGeminiAPI(userPrompt, systemInstruction);
+            const aiResponse = await callClaudeAPI(userPrompt, systemInstruction);
 
             if (aiResponse) {
                 resultDiv.innerText = aiResponse;
@@ -608,7 +617,7 @@
             const systemInstruction = "You are an expert AI music curator with deep knowledge of Progressive House, Techno, and Deep House from the 90s to today. Your task is to create a hypothetical 5-track setlist that DJ Jesse Jay might play, based on a user's description of a mood or theme. You must adhere to his known style: soulful, deep, journey-like, and sometimes sexy. The setlist should have a logical flow. RULES: 1. Generate a list of exactly 5 tracks. 2. Format the output as a numbered list. 3. Each item must follow this format: `Artist Name - Track Title (Remix if applicable)`. 4. Choose plausible, real tracks from the appropriate genres. 5. After the list, add one short, creative sentence describing the overall vibe of the generated set. 6. Respond in the same language as the user's prompt.";
             const userPrompt = `Create a 5-track setlist for the following vibe: "${vibeInput.value}"`;
 
-            const aiResponse = await callGeminiAPI(userPrompt, systemInstruction);
+            const aiResponse = await callClaudeAPI(userPrompt, systemInstruction);
 
             if (aiResponse) {
                 const parts = aiResponse.split('\n').filter(p => p.trim());
@@ -652,7 +661,7 @@
             chatWindow.scrollTop = chatWindow.scrollHeight;
             
             const systemInstruction = "You are a friendly and knowledgeable AI assistant for the website of DJ Jesse Jay, a techno and progressive house DJ from Zurich, Switzerland. Your name is JJ-AI. Your knowledge is based on the following information: - DJ Name: Jesse Jay (real name: Michael Fellner) - Active Since: 1997 - Location: Zurich, Switzerland - Music Styles: Progressive House, Techno, Deep House, Melodic Tech. His music is described as 'soul-bearing journeys' and 'deep, timeless musical experiences'. - Radio Show: 'The Blue Dimension' on Radio LoRa (lora.ch & DAB+). It runs every Thursday from midnight to 6 AM. He has been hosting a show since 2001. - Career Highlights: He grew up in the scene of legendary Zurich clubs like Aera, Labyrinth, SpiderGalaxy, and Dachkantine. - Official Links: Soundcloud (soundcloud.com/jessejay) and Radio LoRa (lora.ch/radio/sendungen/blue-dimension). - Personality: Answer in a helpful and slightly enthusiastic tone, reflecting the passion for electronic music. Keep answers concise and to the point. - Language: Always respond in the language of the user's question. - Limitations: You CANNOT handle bookings, personal requests, or provide personal contact details. If a user asks about bookings, you MUST direct them to the contact form on the website. - Your Goal: To answer questions about DJ Jesse Jay's music, career, and radio show based ONLY on the information provided.";
-            const aiResponse = await callGeminiAPI(userMessage, systemInstruction);
+            const aiResponse = await callClaudeAPI(userMessage, systemInstruction);
 
             chatWindow.removeChild(thinkingBubble);
             
