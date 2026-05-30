@@ -9,7 +9,7 @@
     "dev": "webpack --mode development --watch"
   },
   "keywords": ["vanilla", "javascript", "webpack"],
-  "author": "MarcelRaschke",
+  "author": "Marcel Raschke",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.24.0",
@@ -20,6 +20,6 @@
     "webpack-dev-server": "^4.15.1"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   }
 }
