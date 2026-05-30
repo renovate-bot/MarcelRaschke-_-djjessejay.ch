@@ -5,7 +5,7 @@ Vanilla JavaScript project with Webpack and Babel support.
 ## Setup
 
 ### Prerequisites
-- Node.js 20+
+- Node.js 24+
 - npm
 
 ### Installation
@@ -42,7 +42,7 @@ Starts webpack dev server on http://localhost:8080
 
 - ✅ Webpack 5 bundler
 - ✅ Babel transpilation (ES2021+ support)
-- ✅ Node 20+ compatible
+- ✅ Node 24+ compatible
 - ✅ GitHub Actions CI/CD
 - ✅ Modern JavaScript support (including ||= operator)
 
@@ -71,20 +71,17 @@ Datenschutz{.translate key="privacy"}
 
 {target="_blank" aria-label="LoRa"} :::
 
-Biografie {#biografie .translate key="biography"}
-::: biography-text Do you know the feelings like this one you feel when you drive deeply in the track „DJ..DJ...all your sound seems the same to me"? Being suddenly taken into a round, remarkably awakening of passion, ...our party passion. Soul carrying voyages... , heart spaces creating horizons and feelings to music with sexy fantasies arise, got seldom since quite a while. That is how Jesse loves to feel when he is giving himself to the music and this is how he passes on his sound and the emotions to the crowd. Embracing with his radical sensitiveness. Jesse grew up in his contagious party senses at the individuality-reigning, going mad and „we are family" philosophical, to legendary Clubs like: Aera, Labyrinth, SpiderGalaxy, Take A Dance, Hermetschloo and Dachkantine. At Radio Lora he plays each two weeks since 2001 at Galaxy Space Nights. A 6 hours long, deep-tender holidays of the mind. With his timeless, surprising choices of pearl-tracks. Heartful and at the same time est porno stories, seamlessly woben with his distinctive DJ's skills. He gives the same dimension of importance to play like at the beginning, same as a main act, or the outro. Continuously grown since 1997. A loyal Vinyl Lover, with equally pleasuring with the CDJ & XDJ. Do you know the feeling of an unconditional, passionate music trip, too? ::: :::
+Biografie {#biografie .translate key="biography"} ::: biography-text Do you know the feelings like this one you feel when you drive deeply in the track „DJ..DJ...all your sound seems the same to me"? Being suddenly taken into a round, remarkably awakening of passion, ...our party passion. Soul carrying voyages... , heart spaces creating horizons and feelings to music with sexy fantasies arise, got seldom since quite a while. That is how Jesse loves to feel when he is giving himself to the music and this is how he passes on his sound and the emotions to the crowd. Embracing with his radical sensitiveness. Jesse grew up in his contagious party senses at the individuality-reigning, going mad and „we are family" philosophical, to legendary Clubs like: Aera, Labyrinth, SpiderGalaxy, Take A Dance, Hermetschloo and Dachkantine. At Radio Lora he plays each two weeks since 2001 at Galaxy Space Nights. A 6 hours long, deep-tender holidays of the mind. With his timeless, surprising choices of pearl-tracks. Heartful and at the same time est porno stories, seamlessly woben with his distinctive DJ's skills. He gives the same dimension of importance to play like at the beginning, same as a main act, or the outro. Continuously grown since 1997. A loyal Vinyl Lover, with equally pleasuring with the CDJ & XDJ. Do you know the feeling of an unconditional, passionate music trip, too? ::: :::
 
 ::: {#music .section}
 
-Musik {#musik .translate key="music"}
-Gemischt von DJ Jesse Jay
+Musik {#musik .translate key="music"} Gemischt von DJ Jesse Jay
 
 ::: media-container ::: :::
 
 ::: {#contact .section}
 
-Kontakt {#kontakt .translate key="contact"}
-::: form-group Name: :::
+Kontakt {#kontakt .translate key="contact"} ::: form-group Name: :::
 
 ::: form-group E-Mail: :::
 
